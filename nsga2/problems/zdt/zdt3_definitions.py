@@ -24,4 +24,5 @@ class ZDT3Definitions(ProblemDefinitions):
                  + seq(0.4093136748, 0.4538821041, step) \
                  + seq(0.6183967944, 0.6525117038, step) \
                  + seq(0.8233317983, 0.8518328654, step)
-        return domain, map(lambda x1: 1 - math.sqrt(x1) - x1*math.sin(10*math.pi*x1), domain)
+        dest = map(lambda x1: (1 - math.sqrt(x1) - x1*math.sin(10*math.pi*x1)), domain)
+        return list(domain), list(dest)

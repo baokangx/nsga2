@@ -17,4 +17,4 @@ class ZDT2Definitions(ProblemDefinitions):
 
     def perfect_pareto_front(self):
         domain = seq(0, 1, 0.01)
-        return domain, map(lambda x1: 1 - x1**2, domain)
+        return list(domain), list(map(lambda x1: 1 - x1**2, domain))

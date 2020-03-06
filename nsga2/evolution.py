@@ -9,7 +9,7 @@ class Evolution(object):
     def __init__(self, problem, num_of_generations, num_of_individuals):
         self.utils = NSGA2Utils(problem, num_of_individuals)
 
-        self.population = None
+        self.population = 0
         self.num_of_generations = num_of_generations
         self.on_generation_finished = []
         self.num_of_individuals = num_of_individuals
@@ -23,11 +23,14 @@ class Evolution(object):
         self.utils.fast_nondominated_sort(self.population)
         for front in self.population.fronts:
             self.utils.calculate_crowding_distance(front)
-        children = self.utils.create_children(self.population)
+        children = self.utils.create_children(self.population.population)
         returned_population = None 
+
         for i in range(self.num_of_generations):
             self.population.extend(children)
             self.utils.fast_nondominated_sort(self.population)
+            for front in self.population.fronts:
+                self.utils.calculate_crowding_distance(front)
             new_population = Population()
             front_num = 0
             while len(new_population) + len(self.population.fronts[front_num]) <= self.num_of_individuals:
@@ -35,11 +38,11 @@ class Evolution(object):
                 new_population.extend(self.population.fronts[front_num])
                 front_num += 1
                 
-            sorted(self.population.fronts[front_num], cmp=self.utils.crowding_operator)
+            sorted(self.population.fronts[front_num], key=lambda individual: (individual.rank,individual.crowding_distance * -1))
             new_population.extend(self.population.fronts[front_num][0:self.num_of_individuals-len(new_population)])
             returned_population = self.population
             self.population = new_population
-            children = self.utils.create_children(self.population)
+            children = self.utils.create_children(self.population.population)
             for fun in self.on_generation_finished:
                 fun(returned_population, i)
         return returned_population.fronts[0]

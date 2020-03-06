@@ -1,3 +1,4 @@
+from functools import reduce
 def HV(reference_point):
     def calculate_hyper_volume(front):
         def volume(individual):
