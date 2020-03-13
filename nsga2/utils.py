@@ -40,9 +40,6 @@ class NSGA2Utils(object):
                         temp.append(other_individual)
             i = i+1
             population.fronts.append(temp)
-                    
-    def __sort_objective(self, val1, val2, m):
-        return cmp(val1.objectives[m], val2.objectives[m])
     
     def calculate_crowding_distance(self, front):
         if len(front) > 0:
@@ -107,11 +104,13 @@ class NSGA2Utils(object):
     def __mutate(self, child):
         genes_to_mutate = random.sample(range(0, len(child.features)), self.number_of_genes_to_mutate)
         for gene in genes_to_mutate:
-            child.features[gene] = child.features[gene] - self.mutation_strength/2 + random.random() * self.mutation_strength
-            if child.features[gene] < 0:
-                child.features[gene] = 0
-            elif child.features[gene] > 1:
-                child.features[gene] = 1
+            feature_range = self.problem.zdt_definitions.features_max[gene]- self.problem.zdt_definitions.features_min[gene]
+            child.features[gene] = child.features[gene] - self.mutation_strength/2 + \
+            random.random() * self.mutation_strength*feature_range
+            if child.features[gene] < self.problem.zdt_definitions.features_min[gene]:
+                child.features[gene] = self.problem.zdt_definitions.features_min[gene]
+            elif child.features[gene] >= self.problem.zdt_definitions.features_max[gene]:
+                child.features[gene] = self.problem.zdt_definitions.features_max[gene]
         
     def __tournament(self, population):
         participants = random.sample(population, self.num_of_tour_particips)

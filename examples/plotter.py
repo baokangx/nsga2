@@ -37,15 +37,10 @@ class Plotter():
 
         computed_f1 = list(map(lambda individual: individual.objectives[0], front))
         computed_f2 = list(map(lambda individual: individual.objectives[1], front))
-        print (computed_f1)
-        print ("---------------------------")
-        print (computed_f2)
         axes.plot(computed_f1, computed_f2, 'g.', label='Computed Pareto Front')
 
         perfect_pareto_front_f1, perfect_pareto_front_f2 = self.problem.perfect_pareto_front()
-        print (perfect_pareto_front_f1)
-        print ("---------------------------")
-        print (perfect_pareto_front_f2)
+
         axes.plot(perfect_pareto_front_f1, perfect_pareto_front_f2, 'r.', label='Perfect Pareto Front')
 
         if self._f1_lim is None:

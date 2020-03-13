@@ -1,5 +1,8 @@
 class ProblemDefinitions():
-
+    n = None
+    features_min = None
+    features_max = None
+    
     def __init__(self):
         raise NotImplementedError
 

@@ -28,8 +28,11 @@ def collect_metrics(population, generation_num):
     hvr = metrics.HVR(pareto_front)
     collected_metrics[generation_num] = hv, hvr
 
-#zdt_definitions = ZDT3Definitions()
-zdt_definitions =  ZDT1Definitions()
+
+#zdt_definitions =  ZDT1Definitions()
+#zdt_definitions =  ZDT2Definitions()
+zdt_definitions =  ZDT3Definitions()
+
 plotter = Plotter(zdt_definitions)
 problem = ZDT(zdt_definitions)
 evolution = Evolution(problem, 100, 100)
@@ -40,4 +43,3 @@ evolution.register_on_new_generation(collect_metrics)
 pareto_front = evolution.evolve()
 
 plotter.plot_x_y(collected_metrics.keys(), list(map(lambda hvr:hvr, collected_metrics.values())), 'generation', 'HVR', 'HVR metric for ZDT3 problem', 'hvr-zdt3')
-#plotter.plot_x_y(collected_metrics.keys(), map(lambda (hv, hvr): hvr, collected_metrics.values()), 'generation', 'HVR', 'HVR metric for ZDT3 problem', 'hvr-zdt3')

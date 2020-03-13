@@ -6,6 +6,8 @@ class ZDT3Definitions(ProblemDefinitions):
 
     def __init__(self):
         self.n = 30
+        self.features_min = [0 for i in range(self.n)]
+        self.features_max = [1 for i in range(self.n)]
 
     def f1(self, individual):
         return individual.features[0]

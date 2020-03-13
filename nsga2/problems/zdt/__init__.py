@@ -12,23 +12,23 @@ class ZDT(Problem):
         self.max_objectives = [None, None]
         self.min_objectives = [None, None]
         self.problem_type = None
-        self.n = 30
+        self.n = self.zdt_definitions.n  # define  factor  dimension 
 
-    def __dominates(self, individual2, individual1):
-        worse_than_other = self.zdt_definitions.f1(individual1) <= self.zdt_definitions.f1(individual2) and self.zdt_definitions.f2(individual1) <= self.zdt_definitions.f2(individual2)
-        better_than_other = self.zdt_definitions.f1(individual1) < self.zdt_definitions.f1(individual2) or self.zdt_definitions.f2(individual1) < self.zdt_definitions.f2(individual2)
-        return worse_than_other and better_than_other
+    def __dominates(self, individual2, individual1): #individual1 is self, individual2 is another 
+        worse_than_other = True 
+        for i in  range(len(individual1.objectives)):
+            worse_than_other = worse_than_other and  individual1.objectives[i] <= individual2.objectives[i]
+        return worse_than_other 
 
     def generateIndividual(self):
         individual = Individual()
         individual.features = []
         for i in range(self.n):
-            individual.features.append(random.random())
+            individual.features.append(random.uniform(self.zdt_definitions.features_min[i],self.zdt_definitions.features_max[i]))
         individual.dominates = functools.partial(self.__dominates, individual1=individual)
-        self.calculate_objectives(individual)
         return individual
 
-    def calculate_objectives(self, individual):
+    def calculate_objectives(self, individual):   
         individual.objectives = []
         individual.objectives.append(self.zdt_definitions.f1(individual))
         individual.objectives.append(self.zdt_definitions.f2(individual))

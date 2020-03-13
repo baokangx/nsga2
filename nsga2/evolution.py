@@ -25,7 +25,6 @@ class Evolution(object):
             self.utils.calculate_crowding_distance(front)
         children = self.utils.create_children(self.population.population)
         returned_population = None 
-
         for i in range(self.num_of_generations):
             self.population.extend(children)
             self.utils.fast_nondominated_sort(self.population)
@@ -37,7 +36,6 @@ class Evolution(object):
                 self.utils.calculate_crowding_distance(self.population.fronts[front_num])
                 new_population.extend(self.population.fronts[front_num])
                 front_num += 1
-                
             sorted(self.population.fronts[front_num], key=lambda individual: (individual.rank,individual.crowding_distance * -1))
             new_population.extend(self.population.fronts[front_num][0:self.num_of_individuals-len(new_population)])
             returned_population = self.population
