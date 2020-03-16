@@ -12,7 +12,9 @@ class ZDT(Problem):
         self.max_objectives = [None, None]
         self.min_objectives = [None, None]
         self.problem_type = None
-        self.n = self.zdt_definitions.n  # define  factor  dimension 
+        self.factor = self.n = self.zdt_definitions.n  # define  factor  dimension 
+        self.features_min = self.zdt_definitions.features_min
+        self.features_max = self.zdt_definitions.features_max
 
     def __dominates(self, individual2, individual1): #individual1 is self, individual2 is another 
         worse_than_other = True 

@@ -104,13 +104,13 @@ class NSGA2Utils(object):
     def __mutate(self, child):
         genes_to_mutate = random.sample(range(0, len(child.features)), self.number_of_genes_to_mutate)
         for gene in genes_to_mutate:
-            feature_range = self.problem.zdt_definitions.features_max[gene]- self.problem.zdt_definitions.features_min[gene]
+            feature_range = self.problem.features_max[gene]- self.problem.features_min[gene]
             child.features[gene] = child.features[gene] - self.mutation_strength/2 + \
             random.random() * self.mutation_strength*feature_range
-            if child.features[gene] < self.problem.zdt_definitions.features_min[gene]:
-                child.features[gene] = self.problem.zdt_definitions.features_min[gene]
-            elif child.features[gene] >= self.problem.zdt_definitions.features_max[gene]:
-                child.features[gene] = self.problem.zdt_definitions.features_max[gene]
+            if child.features[gene] < self.problem.features_min[gene]:
+                child.features[gene] = self.problem.features_min[gene]
+            elif child.features[gene] >= self.problem.features_max[gene]:
+                child.features[gene] = self.problem.features_max[gene]
         
     def __tournament(self, population):
         participants = random.sample(population, self.num_of_tour_particips)
