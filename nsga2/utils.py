@@ -3,6 +3,7 @@
 import functools
 from nsga2.population import Population
 import random
+import math
 
 class NSGA2Utils(object):
     
@@ -104,9 +105,13 @@ class NSGA2Utils(object):
     def __mutate(self, child):
         genes_to_mutate = random.sample(range(0, len(child.features)), self.number_of_genes_to_mutate)
         for gene in genes_to_mutate:
+            
             feature_range = self.problem.features_max[gene]- self.problem.features_min[gene]
             child.features[gene] = child.features[gene] - self.mutation_strength/2 + \
             random.random() * self.mutation_strength*feature_range
+            if (self.problem.problem_type  ==  "integer"):
+                child.features[gene] = math.floor(child.features[gene])
+
             if child.features[gene] < self.problem.features_min[gene]:
                 child.features[gene] = self.problem.features_min[gene]
             elif child.features[gene] >= self.problem.features_max[gene]:
